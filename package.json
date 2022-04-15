@@ -1,0 +1,6 @@
+{
+  "name": "com.gilzoide.taskfactoryobject",
+  "displayName": "Task Factory Object",
+  "version": "1.0.0",
+  "description": "TaskSchedulers with limited concurrency and TaskFactory serialized objects for Unity"
+}
