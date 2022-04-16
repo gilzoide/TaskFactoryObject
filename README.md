@@ -48,6 +48,7 @@ will use it's own default.
 
 Usage example:
 ```cs
+using System.Threading.Tasks;
 using UnityEngine;
 using Gilzoide.TaskFactoryObject;
 
@@ -79,6 +80,7 @@ will use it's own default.
 
 Usage example:
 ```cs
+using System.Threading.Tasks;
 using UnityEngine;
 using Gilzoide.TaskFactoryObject;
 
