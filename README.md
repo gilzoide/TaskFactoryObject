@@ -104,3 +104,19 @@ public class SomeOtherScript : MonoBehaviour
 ```
 
 ![](Extras~/TaskFactoryScriptableObject.png)
+
+
+## TaskFactoryConfig
+The [TaskFactoryConfig](Runtime/TaskFactoryConfig.cs) is a serializable class
+with configurations for creating `TaskScheduler` and `TaskFactory` objects.
+This is used by both `TaskFactoryComponent` and `TaskFactoryScriptableObject`.
+
+Methods:
+- `TaskScheduler CreateScheduler(CancellationToken cancellationToken = default)`:
+  creates a new `TaskScheduler` with the defined configuration.
+- `TaskFactory CreateFactory(CancellationToken cancellationToken = default)`:
+  creates a new `TaskFactory` with the defined configuration. A `TaskScheduler`
+  is also created via `CreateScheduler` and passed to it.
+- `TaskFactory CreateFactory(TaskScheduler taskScheduler, CancellationToken cancellationToken = default)`:
+  creates a new `TaskFactory` with the defined configuration, using a specific
+  scheduler object.
