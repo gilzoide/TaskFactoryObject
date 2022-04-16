@@ -2,21 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace Gilzoide.TaskFactoryObject.TaskSchedulers
 {
-    public class ThreadPoolTaskScheduler : TaskScheduler
+    public class ManagedThreadPoolTaskScheduler : TaskScheduler
     {
         public override int MaximumConcurrencyLevel => _maximumConcurrency;
 
         [ThreadStatic] private static bool _currentThreadIsProcessingItems;
         private readonly LinkedList<Task> _tasks = new LinkedList<Task>();
-        private readonly int _maximumConcurrency = int.MaxValue;
+        private readonly int _maximumConcurrency;
         private readonly CancellationToken _cancellationToken;
         private int _delegatesQueuedOrRunning = 0;
 
-        public ThreadPoolTaskScheduler(int maximumConcurrency, CancellationToken cancellationToken)
+        public ManagedThreadPoolTaskScheduler(int maximumConcurrency, CancellationToken cancellationToken = default)
         {
             _maximumConcurrency = maximumConcurrency;
             _cancellationToken = cancellationToken;

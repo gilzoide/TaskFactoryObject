@@ -20,7 +20,7 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
                     return new SyncTaskScheduler(maximumConcurrency, cancellationToken);
 
                 case TaskSchedulerType.ManagedThreadPool:
-                    return new ThreadPoolTaskScheduler(maximumConcurrency, cancellationToken);
+                    return new ManagedThreadPoolTaskScheduler(maximumConcurrency, cancellationToken);
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), "Invalid TaskSchedulerType");
