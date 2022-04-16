@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace Gilzoide.TaskFactoryObject
 {
-    [CreateAssetMenuAttribute(fileName = "TaskFactory", menuName = "Task Scheduler/TaskFactory")]
+    [CreateAssetMenuAttribute(fileName = "TaskFactory", menuName = "TaskFactoryObject/TaskFactory")]
     public class TaskFactoryScriptableObject : ScriptableObject, ITaskFactoryObject
     {
         public TaskFactoryConfig TaskFactoryConfig;
