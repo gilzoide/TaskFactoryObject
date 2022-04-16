@@ -14,14 +14,14 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
         private readonly CancellationToken _cancellationToken;
         private readonly TaskScheduler _runnerTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-        public SyncTaskScheduler(int maximumConcurrency, CancellationToken cancellationToken = default)
+        public SyncTaskScheduler(int? maximumConcurrency, CancellationToken cancellationToken = default)
         {
-            _maximumConcurrency = maximumConcurrency;
+            _maximumConcurrency = maximumConcurrency ?? int.MaxValue;
             _cancellationToken = cancellationToken;
             RunTasksAsyncLoop();
         }
 
-        public SyncTaskScheduler() : this(int.MaxValue) {}
+        public SyncTaskScheduler() : this(null) {}
     
         protected override void QueueTask(Task task)
         {

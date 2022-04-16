@@ -9,18 +9,14 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
         public static TaskScheduler Create(TaskSchedulerType type, int maximumConcurrency = int.MaxValue,
             CancellationToken cancellationToken = default)
         {
-            if (maximumConcurrency <= 0)
-            {
-                maximumConcurrency = int.MaxValue;
-            }
-
+            int? maxConcurrencyArg = maximumConcurrency > 0 ? maximumConcurrency : null;
             switch (type)
             {
                 case TaskSchedulerType.MainThread:
-                    return new SyncTaskScheduler(maximumConcurrency, cancellationToken);
+                    return new SyncTaskScheduler(maxConcurrencyArg, cancellationToken);
 
                 case TaskSchedulerType.ManagedThreadPool:
-                    return new ManagedThreadPoolTaskScheduler(maximumConcurrency, cancellationToken);
+                    return new ManagedThreadPoolTaskScheduler(maxConcurrencyArg, cancellationToken);
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), "Invalid TaskSchedulerType");

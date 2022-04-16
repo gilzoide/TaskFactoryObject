@@ -15,11 +15,13 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
         private readonly CancellationToken _cancellationToken;
         private int _delegatesQueuedOrRunning = 0;
 
-        public ManagedThreadPoolTaskScheduler(int maximumConcurrency, CancellationToken cancellationToken = default)
+        public ManagedThreadPoolTaskScheduler(int? maximumConcurrency, CancellationToken cancellationToken = default)
         {
-            _maximumConcurrency = maximumConcurrency;
+            _maximumConcurrency = maximumConcurrency ?? Environment.ProcessorCount;
             _cancellationToken = cancellationToken;
         }
+
+        public ManagedThreadPoolTaskScheduler() : this(null) {}
 
         protected override void QueueTask(Task task)
         {
