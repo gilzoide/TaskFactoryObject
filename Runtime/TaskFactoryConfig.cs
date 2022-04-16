@@ -8,31 +8,14 @@ namespace Gilzoide.TaskFactoryObject
     [Serializable]
     public class TaskFactoryConfig
     {
-        public enum ThreadingMode
-        {
-            MainThread,
-            ThreadPool,
-        }
-
         public int MaximumConcurrency = 0;
-        public ThreadingMode Mode;
+        public TaskSchedulerType SchedulerType;
         public TaskCreationOptions DefaultTaskCreationOptions = TaskCreationOptions.None;
         public TaskContinuationOptions DefaultTaskContinuationOptions = TaskContinuationOptions.None;
 
         public TaskScheduler CreateScheduler(CancellationToken cancellationToken = default)
         {
-            int maxConcurrency = MaximumConcurrency > 0 ? MaximumConcurrency : int.MaxValue;
-            switch (Mode)
-            {
-                case ThreadingMode.MainThread:
-                    return new SyncTaskScheduler(maxConcurrency, cancellationToken);
-
-                case ThreadingMode.ThreadPool:
-                    return new ThreadPoolTaskScheduler(maxConcurrency, cancellationToken);
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(Mode), "Invalid threading mode");
-            }
+            return TaskSchedulerFactory.Create(SchedulerType, MaximumConcurrency, cancellationToken);
         }
 
         public TaskFactory CreateFactory(TaskScheduler taskScheduler, CancellationToken cancellationToken = default)
