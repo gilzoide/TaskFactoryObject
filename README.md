@@ -1,8 +1,17 @@
 # TaskFactoryObject
-`TaskFactoryObject` brings configurable `MonoBehaviour` and `ScriptableObject`
-subclasses wrapping [TaskFactory](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskfactory?view=netstandard-2.0)
+Brings configurable `MonoBehaviour` and `ScriptableObject` subclasses wrapping
+[TaskFactory](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskfactory?view=netstandard-2.0)
 objects, easing the creation and sharing of task factories with custom
 schedulers in Unity.
+
+
+## Installing the package
+This package can be installed on Unity projects using the [Unity Package Manager](https://docs.unity3d.com/Manual/Packages.html).
+Just [add a package using this repository URL](https://docs.unity3d.com/Manual/upm-ui-giturl.html):
+
+```
+https://github.com/gilzoide/TaskFactoryObject.git
+```
 
 
 ## TaskSchedulers
