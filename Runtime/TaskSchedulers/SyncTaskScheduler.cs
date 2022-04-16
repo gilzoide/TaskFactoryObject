@@ -64,6 +64,8 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
 
         private async void RunTasksAsyncLoop()
         {
+            await Task.Yield();
+
             while (!_cancellationToken.IsCancellationRequested)
             {
                 for (int i = 0; i < _maximumConcurrency && _tasks.TryRemoveFirst(out Task task); i++)
