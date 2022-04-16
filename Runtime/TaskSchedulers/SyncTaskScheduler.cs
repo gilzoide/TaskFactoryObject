@@ -23,6 +23,8 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
 
         public SyncTaskScheduler() : this(null) {}
     
+        #region TaskScheduler implementation
+
         protected override void QueueTask(Task task)
         {
             if (_cancellationToken.IsCancellationRequested)
@@ -47,6 +49,8 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
         {
             return TaskSchedulerUtils.ReturnIfMonitorEnter(_tasks);
         }
+
+        #endregion
 
         private async void RunAsync(Action action)
         {

@@ -34,6 +34,8 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
 
         public OwnThreadsTaskScheduler() : this(null) {}
 
+        #region TaskScheduler implementation
+
         protected override void QueueTask(Task task)
         {
             if (_cancellationToken.IsCancellationRequested)
@@ -68,6 +70,8 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
         {
             return TaskSchedulerUtils.ReturnIfMonitorEnter(_tasks);
         }
+
+        #endregion
 
         private void WorkerLoop()
         {
