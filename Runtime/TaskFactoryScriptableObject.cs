@@ -18,14 +18,32 @@ namespace Gilzoide.TaskFactoryObject
         
         void OnEnable()
         {
-            _cancellationTokenSource = new CancellationTokenSource();
-            Factory = TaskFactoryConfig.CreateFactory(_cancellationTokenSource.Token);
+            CreateFactoryIfNeeded();
         }
 
         void OnDisable()
         {
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
+            DestroyFactory();
+        }
+
+        public void CreateFactoryIfNeeded()
+        {
+            if (Factory != null)
+            {
+                return;
+            }
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            Factory = TaskFactoryConfig.CreateFactory(_cancellationTokenSource.Token);
+        }
+
+        public void DestroyFactory()
+        {
+            if (_cancellationTokenSource != null)
+            {
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Dispose();
+            }
             Factory = null;
         }
     }
