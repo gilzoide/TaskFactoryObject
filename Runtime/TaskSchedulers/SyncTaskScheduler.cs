@@ -18,7 +18,7 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
         {
             _maximumConcurrency = maximumConcurrency ?? int.MaxValue;
             _cancellationToken = cancellationToken;
-            RunTasksAsyncLoop();
+            RunAsync(WorkerLoopAsync);
         }
 
         public SyncTaskScheduler() : this(null) {}
@@ -57,10 +57,8 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
             catch (OperationCanceledException) {}
         }
 
-        private async void RunTasksAsyncLoop()
+        private async void WorkerLoopAsync()
         {
-            await Task.Yield();
-
             while (!_cancellationToken.IsCancellationRequested)
             {
                 for (int i = 0; i < _maximumConcurrency && _tasks.TryRemoveFirst(out Task task); i++)
