@@ -20,10 +20,9 @@ The [TaskSchedulers module](Runtime/TaskSchedulers/) comes with 3
 implementations:
 
 - [SyncTaskScheduler](Runtime/TaskSchedulers/SyncTaskScheduler.cs): run tasks
-  in the current `SynchronizationContext`. Unless there are any custom
-  `SynchronizationContext` registered as current, this scheduler will run
-  tasks in Unity's Main Thread. Default maximum concurrency is `int.MaxValue`,
-  that is, process every task in a single frame.
+  in the current `SynchronizationContext`, which by default is Unity's Main
+  Thread. Default maximum concurrency is `int.MaxValue`, that is, process every
+  queued task in a single frame.
 - [ManagedThreadPoolTaskScheduler](Runtime/TaskSchedulers/ManagedThreadPoolTaskScheduler.cs):
   run tasks in the [Managed Thread Pool](https://docs.microsoft.com/en-us/dotnet/standard/threading/the-managed-thread-pool).
   Default maximum concurrency is `Environment.ProcessorCount`.
