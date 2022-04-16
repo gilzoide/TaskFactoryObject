@@ -10,23 +10,18 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
         public override int MaximumConcurrencyLevel => _maximumConcurrency;
 
         private readonly LinkedList<Task> _tasks = new LinkedList<Task>();
-        private readonly int _maximumConcurrency = int.MaxValue;
+        private readonly int _maximumConcurrency;
         private readonly CancellationToken _cancellationToken;
         private readonly TaskScheduler _runnerTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-        public SyncTaskScheduler(int maximumConcurrency, CancellationToken cancellationToken = default,
-            TaskScheduler runnerScheduler = null)
+        public SyncTaskScheduler(int maximumConcurrency, CancellationToken cancellationToken = default)
         {
             _maximumConcurrency = maximumConcurrency;
             _cancellationToken = cancellationToken;
-            _runnerTaskScheduler = runnerScheduler ?? TaskScheduler.FromCurrentSynchronizationContext();
             RunTasksAsyncLoop();
         }
 
-        public SyncTaskScheduler()
-        {
-            RunTasksAsyncLoop();
-        }
+        public SyncTaskScheduler() : this(int.MaxValue) {}
     
         protected override void QueueTask(Task task)
         {
