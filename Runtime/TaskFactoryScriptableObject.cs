@@ -12,29 +12,38 @@ namespace Gilzoide.TaskFactoryObject
         public TaskFactoryConfig TaskFactoryConfig;
 
         public TaskFactoryConfig FactoryConfig => TaskFactoryConfig;
-        public TaskFactory Factory { get; private set; }
+        public TaskScheduler Scheduler
+        {
+            get
+            {
+                if (_taskScheduler == null)
+                {
+                    _cancellationTokenSource = new CancellationTokenSource();
+                    _taskScheduler = TaskFactoryConfig.CreateScheduler(_cancellationTokenSource.Token);
+                }
+                return _taskScheduler;
+            }
+        }
+        public TaskFactory Factory
+        {
+            get
+            {
+                if (_taskFactory == null)
+                {
+                    TaskScheduler scheduler = Scheduler;
+                    _taskFactory = TaskFactoryConfig.CreateFactory(scheduler, _cancellationTokenSource.Token);
+                }
+                return _taskFactory;
+            }
+        }
 
         private CancellationTokenSource _cancellationTokenSource;
-        
-        void OnEnable()
-        {
-            CreateFactoryIfNeeded();
-        }
+        private TaskScheduler _taskScheduler;
+        private TaskFactory _taskFactory;
 
         void OnDisable()
         {
             DestroyFactory();
-        }
-
-        public void CreateFactoryIfNeeded()
-        {
-            if (Factory != null)
-            {
-                return;
-            }
-
-            _cancellationTokenSource = new CancellationTokenSource();
-            Factory = TaskFactoryConfig.CreateFactory(_cancellationTokenSource.Token);
         }
 
         public void DestroyFactory()
@@ -43,8 +52,10 @@ namespace Gilzoide.TaskFactoryObject
             {
                 _cancellationTokenSource.Cancel();
                 _cancellationTokenSource.Dispose();
+                _cancellationTokenSource = null;
             }
-            Factory = null;
+            _taskFactory = null;
+            _taskScheduler = null;
         }
     }
 }

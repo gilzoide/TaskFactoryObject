@@ -5,7 +5,8 @@ namespace Gilzoide.TaskFactoryObject
 {
     public interface ITaskFactoryObject
     {
-        public TaskFactory Factory { get; }
         public TaskFactoryConfig FactoryConfig { get; }
+        public TaskScheduler Scheduler { get; }
+        public TaskFactory Factory { get; }
     }
 }
