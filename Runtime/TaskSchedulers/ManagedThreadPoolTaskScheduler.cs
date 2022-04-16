@@ -57,17 +57,7 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
 
         protected override IEnumerable<Task> GetScheduledTasks()
         {
-            bool lockTaken = false;
-            try
-            {
-                Monitor.TryEnter(_tasks, ref lockTaken);
-                if (lockTaken) return _tasks;
-                else throw new NotSupportedException();
-            }
-            finally
-            {
-                if (lockTaken) Monitor.Exit(_tasks);
-            }
+            return TaskSchedulerUtils.ReturnIfMonitorEnter(_tasks);
         }
 
         private void AddWorkItemToThreadPool()
