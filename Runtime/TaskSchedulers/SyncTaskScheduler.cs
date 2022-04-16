@@ -12,17 +12,22 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
         private readonly LinkedList<Task> _tasks = new LinkedList<Task>();
         private readonly int _maximumConcurrency = int.MaxValue;
         private readonly CancellationToken _cancellationToken;
-        private readonly TaskScheduler _runnerTaskScheduler;
+        private readonly TaskScheduler _runnerTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-        public SyncTaskScheduler(int maximumConcurrency, CancellationToken cancellationToken, TaskScheduler runnerScheduler = null)
+        public SyncTaskScheduler(int maximumConcurrency, CancellationToken cancellationToken = default,
+            TaskScheduler runnerScheduler = null)
         {
             _maximumConcurrency = maximumConcurrency;
             _cancellationToken = cancellationToken;
             _runnerTaskScheduler = runnerScheduler ?? TaskScheduler.FromCurrentSynchronizationContext();
             RunTasksAsyncLoop();
         }
-    
 
+        public SyncTaskScheduler()
+        {
+            RunTasksAsyncLoop();
+        }
+    
         protected override void QueueTask(Task task)
         {
             if (_cancellationToken.IsCancellationRequested)
