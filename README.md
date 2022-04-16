@@ -1,9 +1,8 @@
 # TaskFactoryObject
 Configurable `MonoBehaviour` and `ScriptableObject` subclasses wrapping
 [TaskFactory](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskfactory?view=netstandard-2.0)
-objects, easing the creation and sharing of task factories with custom
-implementations of [TaskScheduler](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskscheduler?view=netstandard-2.0)
-in Unity.
+objects plus a collection of [TaskScheduler](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskscheduler?view=netstandard-2.0)
+implementations with limited concurrency. 
 
 
 ## Installing the package
@@ -16,7 +15,7 @@ https://github.com/gilzoide/TaskFactoryObject.git
 
 
 ## TaskSchedulers
-The [TaskSchedulers module](Runtime/TaskSchedulers/) comes with 3
+The [TaskSchedulers module](Runtime/TaskSchedulers/) comes with the following
 implementations:
 
 - [SyncTaskScheduler](Runtime/TaskSchedulers/SyncTaskScheduler.cs): run tasks
@@ -54,8 +53,8 @@ calling `DestroyFactory`. Accessing the `Scheduler` or `Factory` properties
 afterwards recreates them.
 
 If `MaximumConcurrency` is 0 or a negative number, the created `TaskScheduler`
-will use its own default maximum concurrency, depending on the implementation
-chosen.
+will use its own default maximum concurrency, which depends on the
+implementation.
 
 Usage example:
 ```cs
@@ -71,24 +70,24 @@ public class SomeOtherScript : MonoBehaviour
     async void Start()
     {
         // using TaskScheduler directly
-        await Task.Factory.StartNew(() =>
+        Task task = new Task(() =>
         {
             Debug.Log("This runs in the TaskScheduler configured by FactoryComponent!");
-        }, default, default, FactoryComponent.Scheduler);
+        });
+        task.Start(FactoryComponent.Scheduler);
+        await task;
+
         // using the configured TaskFactory
         await FactoryComponent.Factory.StartNew(() =>
         {
             Debug.Log("This one too (FactoryComponent)!");
         });
 
-        await Task.Factory.StartNew(() =>
+        // using TaskScheduler directly, this time from FactorySO
+        await Task.Delay(100).ContinueWith(_delayTask =>
         {
-            Debug.Log("This runs in the TaskScheduler configured by FactorySO!");
-        }, default, default, FactorySO.Scheduler);
-        await FactorySO.Factory.StartNew(() =>
-        {
-            Debug.Log("This one too (FactorySO)!");
-        });
+            Debug.Log("This continuation runs in the TaskScheduler configured by FactorySO!");
+        }, FactorySO.Scheduler);
 
         Debug.Log("All done!");
     }
