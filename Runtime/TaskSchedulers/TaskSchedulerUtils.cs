@@ -47,5 +47,19 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
         }
 
         #endregion
+
+        #region Thread extensions
+
+        public static void SetupWithOptions(this Thread thread, ThreadOptions options, int indexInPool)
+        {
+            thread.IsBackground = options.useBackgroundThreads;
+            
+            if (!string.IsNullOrEmpty(options.threadNamePrefix))
+            {
+                thread.Name = options.threadNamePrefix + "-" + indexInPool;
+            }
+        }
+
+        #endregion
     }
 }

@@ -12,10 +12,11 @@ namespace Gilzoide.TaskFactoryObject
         public TaskSchedulerType SchedulerType;
         public TaskCreationOptions DefaultTaskCreationOptions = TaskCreationOptions.None;
         public TaskContinuationOptions DefaultTaskContinuationOptions = TaskContinuationOptions.None;
+        public ThreadOptions OwnThreadsOptions;
 
         public TaskScheduler CreateScheduler(CancellationToken cancellationToken = default)
         {
-            return TaskSchedulerFactory.Create(SchedulerType, MaximumConcurrency, cancellationToken);
+            return TaskSchedulerFactory.Create(SchedulerType, MaximumConcurrency, cancellationToken, OwnThreadsOptions);
         }
 
         public TaskFactory CreateFactory(TaskScheduler taskScheduler, CancellationToken cancellationToken = default)

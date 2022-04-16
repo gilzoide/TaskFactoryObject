@@ -4,5 +4,6 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
     {
         MainThread,
         ManagedThreadPool,
+        OwnThreads,
     }
 }
