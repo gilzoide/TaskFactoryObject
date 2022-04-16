@@ -59,7 +59,10 @@ public class SomeOtherScript : MonoBehaviour
     async void Start()
     {
         TaskFactory taskFactory = FactoryComponent.Factory;
-        await taskFactory.StartNew(() => Debug.Log("This is run in the configured TaskScheduler!"));
+        await taskFactory.StartNew(() =>
+        {
+            Debug.Log("This runs in the configured TaskScheduler!");
+        });
         Debug.Log("Done!");
     }
 }
@@ -91,7 +94,10 @@ public class SomeOtherScript : MonoBehaviour
     async void Start()
     {
         TaskFactory taskFactory = FactorySO.Factory;
-        await taskFactory.StartNew(() => Debug.Log("This is run in the configured TaskScheduler!"));
+        await taskFactory.StartNew(() =>
+        {
+            Debug.Log("This runs in the configured TaskScheduler!");
+        });
         Debug.Log("Done!");
     }
 }
