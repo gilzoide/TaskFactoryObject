@@ -18,7 +18,6 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
         {
             _maximumConcurrency = maximumConcurrency ?? int.MaxValue;
             _cancellationToken = cancellationToken;
-            RunAsync(WorkerLoopAsync);
         }
 
         public SyncTaskScheduler() : this(null) {}
@@ -32,7 +31,15 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
                 throw new NotSupportedException("Cannot queue task to a canceled scheduler");
             }
 
-            RunAsync(() => { _tasks.AddLast(task); });
+            RunAsync(async () =>
+            {
+                _tasks.AddLast(task);
+
+                if (_tasks.Count == 1)
+                {
+                    await WorkerLoopAsync();
+                }
+            });
         }
 
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
@@ -61,18 +68,25 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
             catch (OperationCanceledException) {}
         }
 
-        private async void WorkerLoopAsync()
+        private async Task WorkerLoopAsync()
         {
             while (!_cancellationToken.IsCancellationRequested)
             {
-                for (int i = 0; i < _maximumConcurrency && _tasks.TryRemoveFirst(out Task task); i++)
+                await Task.Yield();
+
+                for (int i = 0; i < _maximumConcurrency; i++)
                 {
+                    _cancellationToken.ThrowIfCancellationRequested();
+
+                    if (!_tasks.TryRemoveFirst(out Task task))
+                    {
+                        return;
+                    }
                     if (!TryExecuteTask(task))
                     {
                         break;
                     }
                 }
-                await Task.Yield();
             }
         }
     }
