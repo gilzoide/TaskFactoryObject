@@ -44,6 +44,7 @@ namespace Gilzoide.TaskFactoryObject
             DestroyFactory();
         }
 
+        [ContextMenu("Destroy TaskFactory")]
         public void DestroyFactory()
         {
             if (_cancellationTokenSource != null)
