@@ -1,6 +1,11 @@
 {
-  "name": "com.gilzoide.taskfactoryobject",
+  "name": "com.gilzoide.taskfactory-object",
   "displayName": "Task Factory Object",
   "version": "1.0.0",
-  "description": "TaskFactory Unity objects plus a collection of TaskSchedulers with optional limited concurrency"
+  "description": "TaskFactory Unity objects plus a collection of TaskSchedulers with optional limited concurrency",
+  "homepage": "https://github.com/gilzoide/TaskFactoryObject",
+  "license": "Unlicense",
+  "author": {
+    "name": "Gil Barbosa Reis"
+  }
 }
