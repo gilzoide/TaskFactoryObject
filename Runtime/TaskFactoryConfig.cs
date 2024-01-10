@@ -2,13 +2,14 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Gilzoide.TaskFactoryObject.TaskSchedulers;
+using UnityEngine;
 
 namespace Gilzoide.TaskFactoryObject
 {
     [Serializable]
     public class TaskFactoryConfig
     {
-        public int MaximumConcurrency = 0;
+        [Min(0)] public int MaximumConcurrency = 0;
         public TaskSchedulerType SchedulerType;
         public TaskCreationOptions DefaultTaskCreationOptions = TaskCreationOptions.None;
         public TaskContinuationOptions DefaultTaskContinuationOptions = TaskContinuationOptions.None;
