@@ -1,4 +1,6 @@
 # TaskFactoryObject
+[![openupm](https://img.shields.io/npm/v/com.gilzoide.taskfactory-object?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.gilzoide.taskfactory-object/)
+
 Configurable `MonoBehaviour` and `ScriptableObject` subclasses wrapping
 [TaskFactory](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskfactory?view=netstandard-2.0)
 objects plus a collection of [TaskScheduler](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskscheduler?view=netstandard-2.0)
@@ -6,12 +8,16 @@ implementations with limited concurrency.
 
 
 ## Installing the package
-This package can be installed on Unity projects using the [Unity Package Manager](https://docs.unity3d.com/Manual/Packages.html).
-Just [add a package using this repository URL](https://docs.unity3d.com/Manual/upm-ui-giturl.html):
-
-```
-https://github.com/gilzoide/TaskFactoryObject.git
-```
+Either:
+- Use the [openupm registry](https://openupm.com/) and install this package using the [openupm-cli](https://github.com/openupm/openupm-cli):
+  ```
+  openupm add com.gilzoide.taskfactory-object
+  ```
+- Install via [Unity Package Manager](https://docs.unity3d.com/Manual/upm-ui-giturl.html) using this repository URL and tag:
+  ```
+  https://github.com/gilzoide/TaskFactoryObject.git#1.0.0
+  ```
+- Clone this repository directly inside your project's `Assets` or `Packages` folder.
 
 
 ## TaskSchedulers
