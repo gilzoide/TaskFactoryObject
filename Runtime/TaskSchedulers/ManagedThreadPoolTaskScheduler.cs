@@ -68,27 +68,28 @@ namespace Gilzoide.TaskFactoryObject.TaskSchedulers
 
         private void AddWorkItemToThreadPool()
         {
-            ThreadPool.QueueUserWorkItem(_ =>
+            ThreadPool.QueueUserWorkItem(static state =>
             {
+                ManagedThreadPoolTaskScheduler self = (ManagedThreadPoolTaskScheduler) state;
                 _currentThreadIsProcessingItems = true;
 
-                while (!_cancellationToken.IsCancellationRequested)
+                while (!self._cancellationToken.IsCancellationRequested)
                 {
                     Task task;
-                    lock (_tasks)
+                    lock (self._tasks)
                     {
-                        if (!_tasks.TryRemoveFirst(out task))
+                        if (!self._tasks.TryRemoveFirst(out task))
                         {
-                            _delegatesQueuedOrRunning--;
+                            self._delegatesQueuedOrRunning--;
                             break;
                         }
                     }
 
-                    TryExecuteTask(task);
+                    self.TryExecuteTask(task);
                 }
                 
                 _currentThreadIsProcessingItems = false;
-            }, null);
+            }, this);
         }
     }
 }
