@@ -15,7 +15,7 @@ Either:
   ```
 - Install via [Unity Package Manager](https://docs.unity3d.com/Manual/upm-ui-giturl.html) using this repository URL and tag:
   ```
-  https://github.com/gilzoide/TaskFactoryObject.git#1.0.0
+  https://github.com/gilzoide/TaskFactoryObject.git#1.0.1
   ```
 - Clone this repository directly inside your project's `Assets` or `Packages` folder.
 
